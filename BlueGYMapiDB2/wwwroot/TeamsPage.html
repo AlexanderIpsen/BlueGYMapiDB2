@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .topnav {
+            overflow: hidden;
+            background-color: #333;
+        }
+
+            .topnav a {
+                float: left;
+                display: block;
+                color: #f2f2f2;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+                font-size: 17px;
+            }
+
+                .topnav a:hover {
+                    background-color: #ddd;
+                    color: black;
+                }
+
+                .topnav a.active {
+                    background-color: #0431B4;
+                    color: white;
+                }
+    </style>
+</head>
+<body>
+
+    <div class="topnav">
+        <a href="welcomePageBlueGym.html">Velkommen</a>
+        <a href="JudgePage.html">Dommer</a>
+        <a href="TeamsPage.html">Hold tilmelding</a>
+        <a href="About.html">Om</a>
+        <a href="Admin.html">Admin</a>
+    </div>
+
+    <div style="padding-left:16px">
+
+        <!-- Button to open the modal -->
+        <button onclick="document.getElementById('id01').style.display='block'">Sign Up</button>
+        <link href="../CSSfiles/TeamCSS.css" rel="stylesheet" />
+        <!-- The Modal (contains the Sign Up form) -->
+        <script src="../JavaScriptFiles/TeamJS.js"></script>
+        <div id="id01" class="modal">
+            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+            <form class="modal-content animate" action="/action_page.php">
+                <div class="container">
+
+                    <label><b>Team Name</b></label>
+                    <input type="text" placeholder="Enter Team" name="team" required>
+                    <center>
+                        <input type="radio" name="tracks" value="Trade & skills"> Trade & skills
+                        <input type="radio" name="tracks" value="Society & Globalization"> Society & Globalization
+                        <input type="radio" name="tracks" value="Business & Service"> Business & Service
+                        <input type="radio" name="tracks" value="Science & Technology"> Science & Technology <br /><br />
+                    </center>
+
+
+                    <label><b>Email</b></label>
+                    <input type="text" placeholder="Enter Email" name="email" required>
+
+                    <label><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" name="psw" required>
+
+                    <label><b>Repeat Password</b></label>
+                    <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+
+
+
+                    <div class="clearfix">
+                        <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                        <button type="submit" class="signupbtn">Sign Up</button>
+                    </div>
+
+
+
+                </div>
+            </form>
+        </div>
+
+        <div class="imgcontainer">
+            <center> <img src="../images/studentimage.png" width="150 " height="150" /> <br /></center>
+        </div>
+
+        <div class="container">
+            <label><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="uname" required><br /><br />
+
+            <label><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="psw" required><br /> <br />
+
+            <button class="button button5" type="submit"> Login</button>
+            <center> <input type="checkbox" checked="checked"> Remember me </center>
+        </div>
+
+        <div class="container" style="background-color:#f1f1f1">
+            <button class="button button5" type="reset">Cancel</button>
+            <center>  <span class="psw">Forgot <a href="#">password?</a></span> </center>
+        </div>
+
+    </div>
+
+</body>
+</html>
