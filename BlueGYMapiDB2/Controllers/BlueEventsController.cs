@@ -90,14 +90,29 @@ namespace BlueGYMapiDB2.Controllers
         [HttpPost]
         public async Task<IActionResult> PostBlueEvent([FromBody] BlueEvent blueEvent)
         {
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             _context.BlueEvent.Add(blueEvent);
-            await _context.SaveChangesAsync();
-
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                if (BlueEventExists(blueEvent.Eventid))
+                {
+                    return new StatusCodeResult(StatusCodes.Status409Conflict);
+                }
+                else
+                {
+                    Console.WriteLine("post exception" + ex.Message);
+                    throw;
+                }
+            }
             return CreatedAtAction("GetBlueEvent", new { id = blueEvent.Eventid }, blueEvent);
         }
 
