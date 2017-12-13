@@ -10,18 +10,17 @@ using BlueGYMapiDB2.Models;
 namespace BlueGYMapiDB2.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Teams")]
-    public class TeamsController : Controller
+    [Route("api/TeamLogin")]
+    public class TeamLoginController : Controller
     {
         private readonly bluegymContext _context;
 
-        public TeamsController(bluegymContext context)
+        public TeamLoginController(bluegymContext context)
         {
-           
             _context = context;
         }
 
-        // GET: api/Teams
+        // GET: api/TeamLogin
         [HttpGet]
         public IEnumerable<Team> GetTeam()
         {
@@ -32,7 +31,7 @@ namespace BlueGYMapiDB2.Controllers
             return _context.Team;
         }
 
-        // GET: api/Teams/5
+        // GET: api/TeamLogin/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTeam([FromRoute] int id)
         {
@@ -51,7 +50,7 @@ namespace BlueGYMapiDB2.Controllers
             return Ok(team);
         }
 
-        // PUT: api/Teams/5
+        // PUT: api/TeamLogin/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTeam([FromRoute] int id, [FromBody] Team team)
         {
@@ -86,24 +85,48 @@ namespace BlueGYMapiDB2.Controllers
             return NoContent();
         }
 
-        // POST: api/Teams
-        [HttpPost]
-        public async Task<IActionResult> PostTeam([FromBody] Team team)
-        {
+        // POST: api/TeamLogin
 
-            //original code below, copy and outcomment if altering
+
+        [HttpPost]
+        public IActionResult PostTeam([FromBody] Team team)
+        {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+
             }
-            _context.Team.Add(team);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction("GetTeam", new { id = team.Teamid }, team);
+            
+            Team test = _context.Team.Find(team.Teamid);
+            try
+            {
+                if (test != null && team.Teampaas == test.Teampaas && team.Teamname.Equals(test.Teamname))
+                {
+                    //return new OkResult();
+                    return Ok();
+                    //make responce object to wpf app
+                }
+                // await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                if (TeamExists(team.Teamid) && (team.Teampaas == team.Teampaas))
+                {
+                    //add validation for above code here
+                    return new StatusCodeResult(StatusCodes.Status409Conflict);
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            //return _context.Team.Any(e => e.Teamid == id);
+            //return CreatedAtAction("GetTeam", new { id = team.Teamid }, team);
+            return Unauthorized();
         }
 
-    
-
-        // DELETE: api/Teams/5
+        // DELETE: api/TeamLogin/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTeam([FromRoute] int id)
         {
@@ -123,8 +146,6 @@ namespace BlueGYMapiDB2.Controllers
 
             return Ok(team);
         }
-
-
 
         private bool TeamExists(int id)
         {
